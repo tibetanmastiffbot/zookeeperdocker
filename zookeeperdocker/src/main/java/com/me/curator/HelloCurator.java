@@ -15,53 +15,29 @@ import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.me.ZookeeperServer;
+
 public class HelloCurator {
 
   private static final Logger log = LoggerFactory.getLogger(HelloCurator.class);
 
   public static void main(String[] args) throws Exception {
-    // final String zookeeperConnectionString = "localhost:2181";
-    final String zookeeperConnectionString = "localhost:2181";
 
+    // Reading
     RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 2);
+
     CuratorFramework client =
-        CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy);
+        CuratorFrameworkFactory.newClient(ZookeeperServer.ZKSERVER, retryPolicy);
     client.start();
-    byte[] bytes = client.getData().forPath("/");
-    log.info("{}", Hex.encodeHex(bytes));
+    byte[] bytes = client.getData().forPath("/consumers/console-consumer-21205/offsets/event/4");
+    log.info("{}, String format: {}", Hex.encodeHex(bytes), new String(bytes));
+
     client.close();
+    // as of Curator 3.1, i am receiving this error Failed to find watcher!
+    // org.apache.zookeeper.KeeperException$NoWatcherException: KeeperErrorCode = No such watcher
+    // for /zookeeper/config
   }
 
-  // this code is not working, got the following errors.
-  /*
-   Starting
-State change: CONNECTED
-[]
-backgroundOperationsLoop exiting
-Failed to find watcher!
-org.apache.zookeeper.KeeperException$NoWatcherException: KeeperErrorCode = No such watcher for /zookeeper/config
-    at org.apache.zookeeper.ZooKeeper$ZKWatchManager.containsWatcher(ZooKeeper.java:377)
-    at org.apache.zookeeper.ZooKeeper$ZKWatchManager.removeWatcher(ZooKeeper.java:252)
-    at org.apache.zookeeper.WatchDeregistration.unregister(WatchDeregistration.java:58)
-    at org.apache.zookeeper.ClientCnxn.finishPacket(ClientCnxn.java:712)
-    at org.apache.zookeeper.ClientCnxn.access$1500(ClientCnxn.java:97)
-    at org.apache.zookeeper.ClientCnxn$SendThread.readResponse(ClientCnxn.java:948)
-    at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:99)
-    at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361)
-    at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1236)
-Failed to find watcher!
-org.apache.zookeeper.KeeperException$NoWatcherException: KeeperErrorCode = No such watcher for /zookeeper/config
-    at org.apache.zookeeper.ZooKeeper$ZKWatchManager.containsWatcher(ZooKeeper.java:377)
-    at org.apache.zookeeper.ZooKeeper$ZKWatchManager.removeWatcher(ZooKeeper.java:252)
-    at org.apache.zookeeper.WatchDeregistration.unregister(WatchDeregistration.java:58)
-    at org.apache.zookeeper.ClientCnxn.finishPacket(ClientCnxn.java:712)
-    at org.apache.zookeeper.ClientCnxn.access$1500(ClientCnxn.java:97)
-    at org.apache.zookeeper.ClientCnxn$SendThread.readResponse(ClientCnxn.java:948)
-    at org.apache.zookeeper.ClientCnxnSocketNIO.doIO(ClientCnxnSocketNIO.java:99)
-    at org.apache.zookeeper.ClientCnxnSocketNIO.doTransport(ClientCnxnSocketNIO.java:361)
-    at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1236)
-
-   */
 }
 
 
