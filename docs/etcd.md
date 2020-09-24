@@ -27,23 +27,24 @@ On the K8S API Server,
       --cert /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.crt \
       --key /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.key
 
-Copy the tar.gz into etcd manager, extract it under /tmp/1
+set the CA, CERT and PUB KEY files
+
+    export MYCACERT=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt
+    export MYCERT=$MYCACERT
+    export MYKEY=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key
+
+List keys prefixed with `/registry/masterleases`
 
     /opt/etcd-v3.4.3-linux-amd64/etcdctl \
       --endpoints=https://127.0.0.1:4001 \
-      --cacert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
-      --cert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
-      --key=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key \
+      --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
       get --prefix --keys-only /registry/masterleases
 
 List all keys
 
-    export ETCDCTL_API=3
     /opt/etcd-v3.4.3-linux-amd64/etcdctl \
       --endpoints=https://127.0.0.1:4001 \
-      --cacert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
-      --cert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
-      --key=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key \
+      --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
       get / --prefix --keys-only
 
 
