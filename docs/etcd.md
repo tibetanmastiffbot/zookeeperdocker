@@ -20,3 +20,10 @@ https://github.com/etcd-io/etcd/releases
     /tmp/etcd-download-test/etcdctl version
 
 # Access
+
+On the K8S API Server,
+
+    sudo curl https://localhost:4001/metrics -k \
+      --cert /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.crt \
+      --key /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.key
+
