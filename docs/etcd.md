@@ -44,7 +44,11 @@ On the K8S API Server,
       --cert /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.crt \
       --key /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.key
 
-set the CA, CERT and PUB KEY files
+Get into `etcd-manager-manager` pod of `kube-system` namespace,
+
+    kubectl exec -it etcd-manager-main-ip-10-166-200-22.ec2.internal -n kube-system bash
+
+Set the CA, CERT and PUB KEY files variables
 
     export MYCACERT=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt
     export MYCERT=$MYCACERT
