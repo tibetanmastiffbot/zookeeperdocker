@@ -27,16 +27,23 @@ On the K8S API Server,
       --cert /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.crt \
       --key /etc/kubernetes/pki/etcd-manager-main/etcd-clients-ca.key
 
-all the crt and key are from the master: 
-
-    sudo tar cvfz etcd-ca.tar.gz /etc/kubernetes/pki/kube-apiserver/
-
 Copy the tar.gz into etcd manager, extract it under /tmp/1
 
-    ETCDCTL_API=3 /opt/etcd-v3.4.3-linux-amd64/etcdctl \
-      --insecure-skip-tls-verify=true \
-      --cacert=/tmp/1/etcd-ca.crt \
-      --cert=/tmp/1/etcd-client.crt \
-      --key=/tmp/1/etcd-client.key \
-      --endpoints=https://127.0.0.1:4001 get --prefix --keys-only /registry/masterleases
+    /opt/etcd-v3.4.3-linux-amd64/etcdctl \
+      --endpoints=https://127.0.0.1:4001 \
+      --cacert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
+      --cert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
+      --key=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key \
+      get --prefix --keys-only /registry/masterleases
+
+List all keys
+
+    export ETCDCTL_API=3
+    /opt/etcd-v3.4.3-linux-amd64/etcdctl \
+      --endpoints=https://127.0.0.1:4001 \
+      --cacert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
+      --cert=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt \
+      --key=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key \
+      get / --prefix --keys-only
+
 
