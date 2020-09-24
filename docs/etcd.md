@@ -67,6 +67,12 @@ List all keys
       --endpoints=${MYENDPOINTS} --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
       get / --prefix --keys-only
 
+List all leases, not much useful as the leases come and go
+
+    /opt/etcd-v3.4.3-linux-amd64/etcdctl \
+      --endpoints=${MYENDPOINTS} --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
+      lease list -w json
+
 Delete the rouge master key, response is `1`
 
     /opt/etcd-v3.4.3-linux-amd64/etcdctl \
