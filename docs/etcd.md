@@ -53,19 +53,23 @@ Set the CA, CERT and PUB KEY files variables
     export MYCACERT=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.crt
     export MYCERT=$MYCACERT
     export MYKEY=/etc/kubernetes/pki/etcd-manager/etcd-clients-ca.key
+    export MYENDPOINTS=https://127.0.0.1:4001
 
 List keys prefixed with `/registry/masterleases`
 
     /opt/etcd-v3.4.3-linux-amd64/etcdctl \
-      --endpoints=https://127.0.0.1:4001 \
-      --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
+      --endpoints=${MYENDPOINTS} --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
       get --prefix --keys-only /registry/masterleases
 
 List all keys
 
     /opt/etcd-v3.4.3-linux-amd64/etcdctl \
-      --endpoints=https://127.0.0.1:4001 \
-      --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
+      --endpoints=${MYENDPOINTS} --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
       get / --prefix --keys-only
 
+Delete the rouge master key, response is `1`
+
+    /opt/etcd-v3.4.3-linux-amd64/etcdctl \
+      --endpoints=${MYENDPOINTS} --cacert=${MYCACERT} --cert=${MYCERT} --key=${MYKEY} \
+      del "/registry/masterleases/10.166.200.26"
 
