@@ -1,6 +1,23 @@
-# Installation
+# Installation (Optional)
+
+On the etcd-manager-main pod, there are already etcd versions pre-installed
+
+    root@ip-10-166-200-22:/# ls /opt/
+    cni
+    etcd-v2.2.1-linux-amd64
+    etcd-v3.1.12-linux-amd64
+    etcd-v3.2.18-linux-amd64
+    etcd-v3.2.24-linux-amd64
+    etcd-v3.3.10-linux-amd64
+    etcd-v3.3.13-linux-amd64
+    etcd-v3.3.17-linux-amd64
+    etcd-v3.4.3-linux-amd64
+
+If you need to use later, you can go to
 
 https://github.com/etcd-io/etcd/releases
+
+for example
 
     ETCD_VER=v3.4.13
 
